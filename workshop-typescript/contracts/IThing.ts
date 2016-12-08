@@ -1,0 +1,5 @@
+interface IThing{
+
+}
+
+export {IThing}
