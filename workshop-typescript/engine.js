@@ -1,11 +1,11 @@
-/* globals require, process Promise */
+/* globals require, process, Promise */
 "use strict";
 // TODO: SEPARATE IN MODULES ONCE IT WORKS!!!!!!!!!!!!!!!!
-// console read setup
 var Superhero_1 = require("./models/Superhero");
 var AlignmentType_1 = require("./utils/AlignmentType");
 var Power_1 = require("./models/Power");
 var PowerType_1 = require("./utils/PowerType");
+// console read setup
 var endOfLine = require('os').EOL;
 var readline = require('readline');
 var rl = readline.createInterface({
@@ -14,15 +14,14 @@ var rl = readline.createInterface({
 });
 var utilityBelt = new Power_1.Power("Utility Belt", 10, PowerType_1.PowerType.buff, PowerType_1.PowerUse.Helpful);
 var laserBeam = new Power_1.Power("Laser beam", 100, PowerType_1.PowerType.damage, PowerType_1.PowerUse.Destructive);
+var killingJoke = new Power_1.Power("Killing Joke", 200, PowerType_1.PowerType.damage, PowerType_1.PowerUse.Destructive);
 var batman = new Superhero_1.Superhero("Batman", AlignmentType_1.AlignmentType.good, 500, 50, utilityBelt);
 var superman = new Superhero_1.Superhero("Supermen", AlignmentType_1.AlignmentType.good, 1000, 100, laserBeam);
 var ironman = new Superhero_1.Superhero("Iron man", AlignmentType_1.AlignmentType.good, 750, 75, laserBeam);
-var killingJoke = new Power_1.Power("Killing Joke", 200, PowerType_1.PowerType.damage, PowerType_1.PowerUse.Destructive);
 var joker = new Superhero_1.Superhero("Joker", AlignmentType_1.AlignmentType.evil, 400, 30, killingJoke);
 var Engine = (function () {
     function Engine() {
         this.EXIT_COMMAND = "exit";
-        this.CHOICE_COMMAND = "choice";
         this.ATTACK_COMMAND = "attack";
         this.POWER_COMMAND = "power";
         // TODO: do not couple with arrays, use the friendly mongoose and move them out of the class!
@@ -38,7 +37,7 @@ var Engine = (function () {
     Engine.prototype.waitForCommand = function (message) {
         var _this = this;
         message = message || " ";
-        rl.question("->" + message + " :", function (answer) {
+        rl.question("->" + message + ": ", function (answer) {
             var command = answer.split(" ");
             if (command[0] === _this.EXIT_COMMAND) {
                 console.log("Thanks for playing!");
@@ -54,7 +53,7 @@ var Engine = (function () {
             }
             else {
                 console.log("Invalid command!");
-                _this.waitForCommand();
+                _this.waitForCommand(message);
             }
         });
     };
@@ -105,7 +104,6 @@ var Engine = (function () {
                     _this.getSuperhero()
                         .then(function (superhero) {
                         _this.playerCharacter = superhero;
-                        console.log("Closing reading!");
                     }).then(function () {
                         console.log("Choice your enemy:");
                         return _this.getSupervillain();
@@ -113,16 +111,13 @@ var Engine = (function () {
                         _this.enemy = supervillain;
                         resolve();
                     })["catch"](function (err) {
-                        console.log("Error!");
-                        console.log(err);
-                        rl.close();
+                        reject(err);
                     });
                 }
                 else if (command === "supervillain") {
                     _this.getSupervillain()
                         .then(function (supervillain) {
                         _this.playerCharacter = supervillain;
-                        console.log("Closing reading!");
                     }).then(function () {
                         console.log("Choice your enemy:");
                         return _this.getSuperhero();
@@ -130,9 +125,7 @@ var Engine = (function () {
                         _this.enemy = superhero;
                         resolve();
                     })["catch"](function (err) {
-                        console.log("Error!");
-                        console.log(err);
-                        rl.close();
+                        reject(err);
                     });
                 }
                 else {
@@ -145,7 +138,10 @@ var Engine = (function () {
     Engine.prototype.start = function () {
         var _this = this;
         this.choiceCharacter()
-            .then(function () { return _this.waitForCommand("START!"); })["catch"](function (err) { return console.log("Error: " + err); });
+            .then(function () { return _this.waitForCommand("START!"); })["catch"](function (err) {
+            console.log("Error: " + err);
+            rl.close();
+        });
     };
     return Engine;
 }());

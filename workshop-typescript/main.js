@@ -1,4 +1,8 @@
 "use strict";
+// import { Superhero } from "./models/Superhero";
+// import { AlignmentType } from "./utils/AlignmentType"
+// import { Power } from "./models/Power"
+// import { PowerType, PowerUse } from "./utils/PowerType";
 var engine_1 = require("./engine");
 // let utilityBelt = new Power("Utility Belt", 10, PowerType.buff, PowerUse.Helpful);
 // let laserBeam = new Power("Laser beam", 100, PowerType.damage, PowerUse.Destructive);

@@ -1,12 +1,13 @@
-/* globals require, process Promise */
+/* globals require, process, Promise */
 
 // TODO: SEPARATE IN MODULES ONCE IT WORKS!!!!!!!!!!!!!!!!
-// console read setup
 import { Superhero } from "./models/Superhero";
 import { AlignmentType } from "./utils/AlignmentType"
 import { Power } from "./models/Power"
 import { PowerType, PowerUse } from "./utils/PowerType";
+import Promise from "ts-promise";
 
+// console read setup
 const endOfLine = require('os').EOL;
 const readline = require('readline');
 
@@ -19,18 +20,18 @@ const rl = readline.createInterface({
 
 let utilityBelt = new Power("Utility Belt", 10, PowerType.buff, PowerUse.Helpful);
 let laserBeam = new Power("Laser beam", 100, PowerType.damage, PowerUse.Destructive);
+let killingJoke = new Power("Killing Joke", 200, PowerType.damage, PowerUse.Destructive);
+
 let batman = new Superhero("Batman", AlignmentType.good, 500, 50, utilityBelt);
 let superman = new Superhero("Supermen", AlignmentType.good, 1000, 100, laserBeam);
 let ironman = new Superhero("Iron man", AlignmentType.good, 750, 75, laserBeam);
 
-let killingJoke = new Power("Killing Joke", 200, PowerType.damage, PowerUse.Destructive);
 let joker = new Superhero("Joker", AlignmentType.evil, 400, 30, killingJoke);
 
 
 
 class Engine {
     private readonly EXIT_COMMAND: string = "exit";
-    private readonly CHOICE_COMMAND: string = "choice";
     private readonly ATTACK_COMMAND: string = "attack";
     private readonly POWER_COMMAND: string = "power";
 
@@ -51,7 +52,7 @@ class Engine {
 
     private waitForCommand(message?: string) {
         message = message || " ";
-        rl.question(`->${message} :`, (answer) => {
+        rl.question(`->${message}: `, (answer) => {
             let command = answer.split(" ");
 
             if (command[0] === this.EXIT_COMMAND) {
@@ -65,13 +66,13 @@ class Engine {
                 this.waitForCommand();
             } else {
                 console.log("Invalid command!");
-                this.waitForCommand();
+                this.waitForCommand(message);
             }
         });
     }
 
-    private getSuperhero() {
-        return new Promise((resolve, reject) => {
+    private getSuperhero(): Promise<Superhero> {
+        return new Promise<Superhero>((resolve, reject) => {
             let characters = this.superheroes.map(sh => sh.name).join(", ")
             let result: Superhero;
             rl.question(`${characters}${endOfLine}`, answer => {
@@ -88,8 +89,8 @@ class Engine {
         })
     }
 
-    private getSupervillain() {
-        return new Promise((resolve, reject) => {
+    private getSupervillain(): Promise<Superhero> {
+        return new Promise<Superhero>((resolve, reject) => {
             let characters = this.supervillains.map(sh => sh.name).join(", ")
             let result: Superhero;
             rl.question(`${characters}${endOfLine}`, answer => {
@@ -106,7 +107,7 @@ class Engine {
         })
     }
 
-// Pyramid of Death!!! 
+    // Pyramid of Death!!! 
     private choiceCharacter() {
         return new Promise((resolve, reject) => {
             rl.question(`Do you want to be a superhero or a supervillain?${endOfLine}`, answer => {
@@ -116,7 +117,6 @@ class Engine {
                     this.getSuperhero()
                         .then(superhero => {
                             this.playerCharacter = superhero;
-                            console.log("Closing reading!")
                         }).then(() => {
                             console.log("Choice your enemy:");
                             return this.getSupervillain();
@@ -124,15 +124,12 @@ class Engine {
                             this.enemy = supervillain;
                             resolve();
                         }).catch(err => {
-                            console.log("Error!")
-                            console.log(err)
-                            rl.close();
+                            reject(err);
                         });
                 } else if (command === "supervillain") {
                     this.getSupervillain()
                         .then(supervillain => {
                             this.playerCharacter = supervillain;
-                            console.log("Closing reading!")
                         }).then(() => {
                             console.log("Choice your enemy:");
                             return this.getSuperhero();
@@ -140,9 +137,7 @@ class Engine {
                             this.enemy = superhero;
                             resolve();
                         }).catch(err => {
-                            console.log("Error!")
-                            console.log(err)
-                            rl.close();
+                            reject(err);
                         });
                 } else {
                     console.log("Incorrect fraction!");
@@ -154,8 +149,11 @@ class Engine {
 
     public start() {
         this.choiceCharacter()
-        .then(()=>this.waitForCommand("START!"))
-        .catch((err)=> console.log(`Error: ${err}`));
+            .then(() => this.waitForCommand("START!"))
+            .catch((err) => {
+                console.log(`Error: ${err}`);
+                rl.close();
+            });
     }
 }
 

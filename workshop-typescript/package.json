@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "node-ts": "^2.1.2",
+    "ts-promise": "^0.3.4",
     "typescript": "^2.1.4"
   }
 }
