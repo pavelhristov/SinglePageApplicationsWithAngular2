@@ -44,10 +44,6 @@ var Engine = (function () {
                 console.log("Thanks for playing!");
                 rl.close();
             }
-            else if (command[0] === _this.CHOICE_COMMAND) {
-                console.log(command[1] + " " + command[2]);
-                _this.waitForCommand();
-            }
             else if (command[0] === _this.ATTACK_COMMAND) {
                 console.log("Attack!");
                 _this.waitForCommand();
@@ -67,7 +63,7 @@ var Engine = (function () {
         return new Promise(function (resolve, reject) {
             var characters = _this.superheroes.map(function (sh) { return sh.name; }).join(", ");
             var result;
-            rl.question("Choice your character: " + characters + endOfLine, function (answer) {
+            rl.question("" + characters + endOfLine, function (answer) {
                 if (characters.indexOf(answer) > -1) {
                     var superhero = _this.superheroes.filter(function (x) { return x.name === answer; });
                     resolve(superhero[0]);
@@ -98,56 +94,58 @@ var Engine = (function () {
             });
         });
     };
+    // Pyramid of Death!!! 
     Engine.prototype.choiceCharacter = function () {
         var _this = this;
-        rl.question("Do you want to be a superhero or a supervillain?" + endOfLine, function (answer) {
-            var command = answer;
-            if (command === "superhero") {
-                console.log("Choice your character:");
-                _this.getSuperhero()
-                    .then(function (superhero) {
-                    _this.playerCharacter = superhero;
-                    console.log(_this.playerCharacter);
-                    console.log("Closing reading!");
-                    rl.close();
-                }).then(function () {
-                    console.log("Choice your enemy:");
-                    return _this.getSupervillain();
-                }).then(function (supervillain) {
-                    _this.enemy = supervillain;
-                })["catch"](function (err) {
-                    console.log("Error!");
-                    console.log(err);
-                    rl.close();
-                });
-            }
-            else if (command === "supervillain") {
-                _this.getSupervillain()
-                    .then(function (supervillain) {
-                    _this.playerCharacter = supervillain;
-                    console.log(_this.playerCharacter);
-                    console.log("Closing reading!");
-                    rl.close();
-                }).then(function () {
-                    console.log("Choice your enemy:");
-                    return _this.getSuperhero();
-                }).then(function (superhero) {
-                    _this.enemy = superhero;
-                })["catch"](function (err) {
-                    console.log("Error!");
-                    console.log(err);
-                    rl.close();
-                });
-            }
-            else {
-                console.log("Incorrect fraction!");
-                _this.choiceCharacter();
-            }
+        return new Promise(function (resolve, reject) {
+            rl.question("Do you want to be a superhero or a supervillain?" + endOfLine, function (answer) {
+                var command = answer;
+                if (command === "superhero") {
+                    console.log("Choice your character:");
+                    _this.getSuperhero()
+                        .then(function (superhero) {
+                        _this.playerCharacter = superhero;
+                        console.log("Closing reading!");
+                    }).then(function () {
+                        console.log("Choice your enemy:");
+                        return _this.getSupervillain();
+                    }).then(function (supervillain) {
+                        _this.enemy = supervillain;
+                        resolve();
+                    })["catch"](function (err) {
+                        console.log("Error!");
+                        console.log(err);
+                        rl.close();
+                    });
+                }
+                else if (command === "supervillain") {
+                    _this.getSupervillain()
+                        .then(function (supervillain) {
+                        _this.playerCharacter = supervillain;
+                        console.log("Closing reading!");
+                    }).then(function () {
+                        console.log("Choice your enemy:");
+                        return _this.getSuperhero();
+                    }).then(function (superhero) {
+                        _this.enemy = superhero;
+                        resolve();
+                    })["catch"](function (err) {
+                        console.log("Error!");
+                        console.log(err);
+                        rl.close();
+                    });
+                }
+                else {
+                    console.log("Incorrect fraction!");
+                    _this.choiceCharacter();
+                }
+            });
         });
     };
     Engine.prototype.start = function () {
-        this.choiceCharacter();
-        //this.waitForCommand("Choice character!");
+        var _this = this;
+        this.choiceCharacter()
+            .then(function () { return _this.waitForCommand("START!"); })["catch"](function (err) { return console.log("Error: " + err); });
     };
     return Engine;
 }());

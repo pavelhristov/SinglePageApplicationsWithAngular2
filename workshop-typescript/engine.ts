@@ -57,9 +57,6 @@ class Engine {
             if (command[0] === this.EXIT_COMMAND) {
                 console.log("Thanks for playing!")
                 rl.close();
-            } else if (command[0] === this.CHOICE_COMMAND) {
-                console.log(`${command[1]} ${command[2]}`);
-                this.waitForCommand();
             } else if (command[0] === this.ATTACK_COMMAND) {
                 console.log("Attack!");
                 this.waitForCommand();
@@ -77,7 +74,7 @@ class Engine {
         return new Promise((resolve, reject) => {
             let characters = this.superheroes.map(sh => sh.name).join(", ")
             let result: Superhero;
-            rl.question(`Choice your character: ${characters}${endOfLine}`, answer => {
+            rl.question(`${characters}${endOfLine}`, answer => {
                 if (characters.indexOf(answer) > -1) {
                     let superhero = this.superheroes.filter(x => x.name === answer);
                     resolve(superhero[0]);
@@ -109,54 +106,56 @@ class Engine {
         })
     }
 
+// Pyramid of Death!!! 
     private choiceCharacter() {
-        rl.question(`Do you want to be a superhero or a supervillain?${endOfLine}`, answer => {
-            let command = answer;
-            if (command === "superhero") {
-            console.log("Choice your character:");
-                this.getSuperhero()
-                    .then(superhero => {
-                        this.playerCharacter = superhero;
-                        console.log(this.playerCharacter);
-                        console.log("Closing reading!")
-                        rl.close();
-                    }).then(() => {
-                        console.log("Choice your enemy:");
-                        return this.getSupervillain();
-                    }).then((supervillain) => {
-                        this.enemy = supervillain;
-                    }).catch(err => {
-                        console.log("Error!")
-                        console.log(err)
-                        rl.close();
-                    });
-            } else if (command === "supervillain") {
-                this.getSupervillain()
-                    .then(supervillain => {
-                        this.playerCharacter = supervillain;
-                        console.log(this.playerCharacter);
-                        console.log("Closing reading!")
-                        rl.close();
-                    }).then(() => {
-                        console.log("Choice your enemy:");
-                        return this.getSuperhero();
-                    }).then((superhero) => {
-                        this.enemy = superhero;
-                    }).catch(err => {
-                        console.log("Error!")
-                        console.log(err)
-                        rl.close();
-                    });
-            } else {
-                console.log("Incorrect fraction!");
-                this.choiceCharacter();
-            }
-        })
+        return new Promise((resolve, reject) => {
+            rl.question(`Do you want to be a superhero or a supervillain?${endOfLine}`, answer => {
+                let command = answer;
+                if (command === "superhero") {
+                    console.log("Choice your character:");
+                    this.getSuperhero()
+                        .then(superhero => {
+                            this.playerCharacter = superhero;
+                            console.log("Closing reading!")
+                        }).then(() => {
+                            console.log("Choice your enemy:");
+                            return this.getSupervillain();
+                        }).then((supervillain) => {
+                            this.enemy = supervillain;
+                            resolve();
+                        }).catch(err => {
+                            console.log("Error!")
+                            console.log(err)
+                            rl.close();
+                        });
+                } else if (command === "supervillain") {
+                    this.getSupervillain()
+                        .then(supervillain => {
+                            this.playerCharacter = supervillain;
+                            console.log("Closing reading!")
+                        }).then(() => {
+                            console.log("Choice your enemy:");
+                            return this.getSuperhero();
+                        }).then((superhero) => {
+                            this.enemy = superhero;
+                            resolve();
+                        }).catch(err => {
+                            console.log("Error!")
+                            console.log(err)
+                            rl.close();
+                        });
+                } else {
+                    console.log("Incorrect fraction!");
+                    this.choiceCharacter();
+                }
+            })
+        });
     }
 
     public start() {
-        this.choiceCharacter();
-        //this.waitForCommand("Choice character!");
+        this.choiceCharacter()
+        .then(()=>this.waitForCommand("START!"))
+        .catch((err)=> console.log(`Error: ${err}`));
     }
 }
 
