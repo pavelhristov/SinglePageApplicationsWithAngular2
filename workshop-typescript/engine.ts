@@ -50,7 +50,7 @@ class Engine {
         joker
     ];
 
-    private terrableAI(){
+    private terribleAI(){
         let action = Math.round(Math.random()*10);
 
         if (action< 7) {
@@ -78,12 +78,12 @@ class Engine {
                 } else if (command[0] === this.ATTACK_COMMAND) {
                     console.log("Attack!");
                     this.playerCharacter.hit(this.enemy);
-                    this.terrableAI();
+                    this.terribleAI();
                     this.waitForCommand();
                 } else if (command[0] === this.POWER_COMMAND) {
                     console.log("Use power!");
                     this.playerCharacter.useSuperPower(this.enemy);
-                    this.terrableAI();
+                    this.terribleAI();
                     this.waitForCommand();
                 } else {
                     console.log("Invalid command!");

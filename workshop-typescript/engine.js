@@ -35,7 +35,7 @@ var Engine = (function () {
             joker
         ];
     }
-    Engine.prototype.terrableAI = function () {
+    Engine.prototype.terribleAI = function () {
         var action = Math.round(Math.random() * 10);
         if (action < 7) {
             this.enemy.hit(this.playerCharacter);
@@ -65,13 +65,13 @@ var Engine = (function () {
                 else if (command[0] === _this.ATTACK_COMMAND) {
                     console.log("Attack!");
                     _this.playerCharacter.hit(_this.enemy);
-                    _this.terrableAI();
+                    _this.terribleAI();
                     _this.waitForCommand();
                 }
                 else if (command[0] === _this.POWER_COMMAND) {
                     console.log("Use power!");
                     _this.playerCharacter.useSuperPower(_this.enemy);
-                    _this.terrableAI();
+                    _this.terribleAI();
                     _this.waitForCommand();
                 }
                 else {
