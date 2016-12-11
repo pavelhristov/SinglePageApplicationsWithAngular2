@@ -17,7 +17,7 @@ var Creature = (function () {
     Creature.prototype.hasHitPointsLeft = function () {
         var isAlive = this.hitPoints > 0;
         if (!isAlive) {
-            console.log(this.name + " is already dead!");
+            console.log(this.name + " is dead!");
         }
         return isAlive;
     };

@@ -32,19 +32,11 @@ class Power {
             }
         }
         if (this.use === PowerUse.Helpful) {
-            if (target && user.alignment !== target.alignment) {
-                console.log(`${this.name} can not be used on target with another alignment!`);
-            } else {
-                if (this.type === PowerType.buff) {
-                    user.increaseDamage(this.power)
-                }
-                if (this.type === PowerType.damage) {
-                    if (target) {
-                    target.getHealed(this.power);
-                    } else {
-                        console.log(`${this.name} needs target!`);
-                    }
-                }
+            if (this.type === PowerType.buff) {
+                user.increaseDamage(this.power)
+            }
+            if (this.type === PowerType.damage) {
+                user.getHealed(this.power);
             }
         }
     }

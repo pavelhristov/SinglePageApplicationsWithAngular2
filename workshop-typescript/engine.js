@@ -5,6 +5,7 @@ var Superhero_1 = require("./models/Superhero");
 var AlignmentType_1 = require("./utils/AlignmentType");
 var Power_1 = require("./models/Power");
 var PowerType_1 = require("./utils/PowerType");
+var ts_promise_1 = require("ts-promise");
 // console read setup
 var endOfLine = require('os').EOL;
 var readline = require('readline');
@@ -34,32 +35,55 @@ var Engine = (function () {
             joker
         ];
     }
+    Engine.prototype.terrableAI = function () {
+        var action = Math.round(Math.random() * 10);
+        if (action < 7) {
+            this.enemy.hit(this.playerCharacter);
+        }
+        else if (action >= 7) {
+            this.enemy.useSuperPower(this.playerCharacter);
+        }
+    };
     Engine.prototype.waitForCommand = function (message) {
         var _this = this;
         message = message || " ";
-        rl.question("->" + message + ": ", function (answer) {
-            var command = answer.split(" ");
-            if (command[0] === _this.EXIT_COMMAND) {
-                console.log("Thanks for playing!");
-                rl.close();
-            }
-            else if (command[0] === _this.ATTACK_COMMAND) {
-                console.log("Attack!");
-                _this.waitForCommand();
-            }
-            else if (command[0] === _this.POWER_COMMAND) {
-                console.log("Use power!");
-                _this.waitForCommand();
-            }
-            else {
-                console.log("Invalid command!");
-                _this.waitForCommand(message);
-            }
-        });
+        if (!this.playerCharacter.hasHitPointsLeft()) {
+            console.log("You Lose!");
+            rl.close();
+        }
+        else if (!this.enemy.hasHitPointsLeft()) {
+            console.log("You Win!");
+            rl.close();
+        }
+        else {
+            rl.question("->" + message + ": ", function (answer) {
+                var command = answer.split(" ");
+                if (command[0] === _this.EXIT_COMMAND) {
+                    console.log("Thanks for playing!");
+                    rl.close();
+                }
+                else if (command[0] === _this.ATTACK_COMMAND) {
+                    console.log("Attack!");
+                    _this.playerCharacter.hit(_this.enemy);
+                    _this.terrableAI();
+                    _this.waitForCommand();
+                }
+                else if (command[0] === _this.POWER_COMMAND) {
+                    console.log("Use power!");
+                    _this.playerCharacter.useSuperPower(_this.enemy);
+                    _this.terrableAI();
+                    _this.waitForCommand();
+                }
+                else {
+                    console.log("Invalid command!");
+                    _this.waitForCommand(message);
+                }
+            });
+        }
     };
     Engine.prototype.getSuperhero = function () {
         var _this = this;
-        return new Promise(function (resolve, reject) {
+        return new ts_promise_1.Promise(function (resolve, reject) {
             var characters = _this.superheroes.map(function (sh) { return sh.name; }).join(", ");
             var result;
             rl.question("" + characters + endOfLine, function (answer) {
@@ -77,7 +101,7 @@ var Engine = (function () {
     };
     Engine.prototype.getSupervillain = function () {
         var _this = this;
-        return new Promise(function (resolve, reject) {
+        return new ts_promise_1.Promise(function (resolve, reject) {
             var characters = _this.supervillains.map(function (sh) { return sh.name; }).join(", ");
             var result;
             rl.question("" + characters + endOfLine, function (answer) {
@@ -96,7 +120,7 @@ var Engine = (function () {
     // Pyramid of Death!!! 
     Engine.prototype.choiceCharacter = function () {
         var _this = this;
-        return new Promise(function (resolve, reject) {
+        return new ts_promise_1.Promise(function (resolve, reject) {
             rl.question("Do you want to be a superhero or a supervillain?" + endOfLine, function (answer) {
                 var command = answer;
                 if (command === "superhero") {

@@ -5,7 +5,7 @@ import { Superhero } from "./models/Superhero";
 import { AlignmentType } from "./utils/AlignmentType"
 import { Power } from "./models/Power"
 import { PowerType, PowerUse } from "./utils/PowerType";
-import Promise from "ts-promise";
+import { Promise } from "ts-promise";
 
 // console read setup
 const endOfLine = require('os').EOL;
@@ -50,25 +50,47 @@ class Engine {
         joker
     ];
 
+    private terrableAI(){
+        let action = Math.round(Math.random()*10);
+
+        if (action< 7) {
+            this.enemy.hit(this.playerCharacter);
+        }else if(action >= 7){
+            this.enemy.useSuperPower(this.playerCharacter);
+        }
+    }
+
     private waitForCommand(message?: string) {
         message = message || " ";
-        rl.question(`->${message}: `, (answer) => {
-            let command = answer.split(" ");
+        if (!this.playerCharacter.hasHitPointsLeft()) {
+            console.log("You Lose!");
+            rl.close();
+        } else if (!this.enemy.hasHitPointsLeft()) {
+            console.log("You Win!");
+            rl.close();
+        } else {
+            rl.question(`->${message}: `, (answer) => {
+                let command = answer.split(" ");
 
-            if (command[0] === this.EXIT_COMMAND) {
-                console.log("Thanks for playing!")
-                rl.close();
-            } else if (command[0] === this.ATTACK_COMMAND) {
-                console.log("Attack!");
-                this.waitForCommand();
-            } else if (command[0] === this.POWER_COMMAND) {
-                console.log("Use power!");
-                this.waitForCommand();
-            } else {
-                console.log("Invalid command!");
-                this.waitForCommand(message);
-            }
-        });
+                if (command[0] === this.EXIT_COMMAND) {
+                    console.log("Thanks for playing!");
+                    rl.close();
+                } else if (command[0] === this.ATTACK_COMMAND) {
+                    console.log("Attack!");
+                    this.playerCharacter.hit(this.enemy);
+                    this.terrableAI();
+                    this.waitForCommand();
+                } else if (command[0] === this.POWER_COMMAND) {
+                    console.log("Use power!");
+                    this.playerCharacter.useSuperPower(this.enemy);
+                    this.terrableAI();
+                    this.waitForCommand();
+                } else {
+                    console.log("Invalid command!");
+                    this.waitForCommand(message);
+                }
+            });
+        }
     }
 
     private getSuperhero(): Promise<Superhero> {

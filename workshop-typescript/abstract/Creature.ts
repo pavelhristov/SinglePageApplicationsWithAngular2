@@ -28,7 +28,7 @@ abstract class Creature {
         let isAlive = this.hitPoints > 0;
 
         if (!isAlive) {
-            console.log(`${this.name} is already dead!`)
+            console.log(`${this.name} is dead!`)
         }
 
         return isAlive;

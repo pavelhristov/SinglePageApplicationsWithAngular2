@@ -25,21 +25,11 @@ var Power = (function () {
             }
         }
         if (this.use === PowerType_1.PowerUse.Helpful) {
-            if (target && user.alignment !== target.alignment) {
-                console.log(this.name + " can not be used on target with another alignment!");
+            if (this.type === PowerType_1.PowerType.buff) {
+                user.increaseDamage(this.power);
             }
-            else {
-                if (this.type === PowerType_1.PowerType.buff) {
-                    user.increaseDamage(this.power);
-                }
-                if (this.type === PowerType_1.PowerType.damage) {
-                    if (target) {
-                        target.getHealed(this.power);
-                    }
-                    else {
-                        console.log(this.name + " needs target!");
-                    }
-                }
+            if (this.type === PowerType_1.PowerType.damage) {
+                user.getHealed(this.power);
             }
         }
     };
