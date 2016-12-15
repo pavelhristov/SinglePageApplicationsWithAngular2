@@ -1,0 +1,6 @@
+<h1>{{pageTitle}}</h1>
+<ul>
+    <li *ngFor="let movie of (movies | sort: 'Year')">
+        <mvdb-movie-short [movie]="movie"></mvdb-movie-short>
+    </li>
+</ul>
