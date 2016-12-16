@@ -1,6 +1,6 @@
 <h1>{{pageTitle}}</h1>
-<ul>
-    <li *ngFor="let movie of (movies | sort: 'Year')">
+<div class="col-md-12 movies-container">
+    <a href="#" *ngFor="let movie of movies" class="list-group-item">
         <mvdb-movie-short [movie]="movie"></mvdb-movie-short>
-    </li>
-</ul>
+    </a>
+</div>

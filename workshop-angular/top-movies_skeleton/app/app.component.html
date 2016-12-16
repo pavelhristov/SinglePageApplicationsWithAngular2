@@ -1,2 +1,3 @@
 <h1>Hello Pesho!</h1>
-<movies-list></movies-list>
+<mvdb-sort-by (select)="action($event)"></mvdb-sort-by>
+<mvdb-movies-list [sortBy]="sortBy"></mvdb-movies-list>

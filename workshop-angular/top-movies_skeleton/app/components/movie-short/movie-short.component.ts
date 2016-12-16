@@ -5,11 +5,13 @@ import { Component, Input } from '@angular/core';
     templateUrl: './movie-short.component.html',
     styles: [`
         img{
-            width: 50px;
+            width: 75px;
         }
-        a{
-            text-decoration: none;
-            font-size: 20px;
+        h2{
+            display: inline-block;
+        }
+        p{
+            display: inline-block;
         }
     `]
 })
