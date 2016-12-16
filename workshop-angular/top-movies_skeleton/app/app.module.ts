@@ -8,6 +8,8 @@ import { MovieShortComponent } from './components/movie-short/movie-short.compon
 import { SortPipe } from './pipes/sort.pipe';
 import { MoviesSortByComponent } from './components/movies-sort-by/movies-sort-by.component';
 import { MoviesOrderByComponent } from './components/movies-order-by/movies-order-by.component';
+import { FilterTitlePipe } from './pipes/filter-title.pipe';
+import { TitleSearchComponent } from './components/title-search/title-search.component';
 
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -23,7 +25,9 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
         MovieShortComponent,
         MoviesSortByComponent,
         MoviesOrderByComponent,
-        SortPipe
+        TitleSearchComponent,
+        SortPipe,
+        FilterTitlePipe
     ],
     bootstrap: [
         AppComponent

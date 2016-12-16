@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
     sortBy: string;
     orderBy: string;
+    pattern: string;
 
     constructor() {
         this.sortBy = 'imdbRating';
@@ -14,6 +15,10 @@ export class AppComponent {
 
     sorting(value: string) {
         this.sortBy = value;
+    }
+
+    titleFilter(value: string) {
+        this.pattern = value;
     }
 
     ordering(value: string) {

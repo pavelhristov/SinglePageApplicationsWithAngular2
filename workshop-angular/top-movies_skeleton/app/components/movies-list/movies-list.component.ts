@@ -1,6 +1,5 @@
 import { Inject, Component, OnInit, Input } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { SortPipe } from '../../pipes/sort.pipe';
 
 @Component({
     selector: 'mvdb-movies-list',
@@ -18,23 +17,26 @@ export class MoviesListComponent implements OnInit {
     http: Http;
     sort: string;
     order: string;
-     private pipeSort: SortPipe = new SortPipe();
+    pattern: string;
 
 
     constructor( @Inject(Http) http: Http) {
         this.http = http;
         this.pageTitle = 'MOVIES!';
         this.movies = [];
+        this.pattern = '';
     }
 
     @Input('sortBy') set sortBy(sortBy: string) {
         this.sort = sortBy;
-        this.pipeSort.transform(this.movies, [this.sort, this.order]);
     }
 
-    @Input('orderBy') set orderBy(orderBy: string){
+    @Input('orderBy') set orderBy(orderBy: string) {
         this.order = orderBy;
-        this.pipeSort.transform(this.movies, [this.sort, this.order]);
+    }
+
+    @Input('pattern') set titleFilter(titleFilter: string) {
+        this.pattern = titleFilter || '';
     }
 
     ngOnInit() {
