@@ -19,7 +19,6 @@ export class MoviesListComponent implements OnInit {
     order: string;
     pattern: string;
 
-
     constructor( @Inject(Http) http: Http) {
         this.http = http;
         this.pageTitle = 'MOVIES!';
@@ -29,10 +28,12 @@ export class MoviesListComponent implements OnInit {
 
     @Input('sortBy') set sortBy(sortBy: string) {
         this.sort = sortBy;
+        this.pattern = this.pattern || '';
     }
 
     @Input('orderBy') set orderBy(orderBy: string) {
         this.order = orderBy;
+        this.pattern = this.pattern || '';
     }
 
     @Input('pattern') set titleFilter(titleFilter: string) {

@@ -1,6 +1,6 @@
 <h1>{{pageTitle}}</h1>
 <div class="col-md-12 movies-container">
-    <a href="#" *ngFor="let movie of (movies | sort: [sort, order, ''] | filterTitle: pattern )" class="list-group-item">
+    <a href="#" *ngFor="let movie of (movies | filterTitle: pattern | sort: [sort, order] )" class="list-group-item">
         <mvdb-movie-short [movie]="movie"></mvdb-movie-short>
     </a>
 </div>

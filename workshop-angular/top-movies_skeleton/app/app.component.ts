@@ -11,6 +11,8 @@ export class AppComponent {
 
     constructor() {
         this.sortBy = 'imdbRating';
+        this.orderBy = 'Descending';
+        this.pattern = '';
     }
 
     sorting(value: string) {
