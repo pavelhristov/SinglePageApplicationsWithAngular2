@@ -1,23 +1,23 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
-    selector: 'mvdb-sort-by',
+    selector: 'mvdb-order-by',
     template: `
     <ul>
       <li *ngFor="let value of values" (click)="selectItem(value)">{{value}}</li>
     </ul>
   `
 })
-export class MoviesSortByComponent {
+export class MoviesOrderByComponent {
     values: string[];
 
-    @Output() selectSort: EventEmitter<string> = new EventEmitter<string>();
+    @Output() selectOrder: EventEmitter<string> = new EventEmitter<string>();
 
     constructor() {
-        this.values = ['Title', 'Year', 'imdbRating'];
+        this.values = ['Ascending', 'Descending'];
     }
 
     selectItem(value: string) {
-        this.selectSort.emit(value);
+        this.selectOrder.emit(value);
     }
 }

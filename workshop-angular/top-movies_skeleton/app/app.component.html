@@ -1,3 +1,4 @@
 <h1>Hello Pesho!</h1>
-<mvdb-sort-by (select)="action($event)"></mvdb-sort-by>
-<mvdb-movies-list [sortBy]="sortBy"></mvdb-movies-list>
+<mvdb-sort-by (selectSort)="sorting($event)"></mvdb-sort-by>
+<mvdb-order-by (selectOrder)="ordering($event)"></mvdb-order-by>
+<mvdb-movies-list [sortBy]="sortBy" [orderBy]="orderBy"></mvdb-movies-list>

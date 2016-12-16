@@ -6,12 +6,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     sortBy: string;
+    orderBy: string;
 
     constructor() {
         this.sortBy = 'imdbRating';
     }
 
-    action(value: string) {
+    sorting(value: string) {
         this.sortBy = value;
+    }
+
+    ordering(value: string) {
+        this.orderBy = value;
     }
 }

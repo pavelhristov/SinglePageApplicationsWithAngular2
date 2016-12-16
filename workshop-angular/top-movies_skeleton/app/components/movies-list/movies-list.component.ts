@@ -17,6 +17,7 @@ export class MoviesListComponent implements OnInit {
     pageTitle: string;
     http: Http;
     sort: string;
+    order: string;
      private pipeSort: SortPipe = new SortPipe();
 
 
@@ -28,7 +29,12 @@ export class MoviesListComponent implements OnInit {
 
     @Input('sortBy') set sortBy(sortBy: string) {
         this.sort = sortBy;
-        this.pipeSort.transform(this.movies, this.sort);
+        this.pipeSort.transform(this.movies, [this.sort, this.order]);
+    }
+
+    @Input('orderBy') set orderBy(orderBy: string){
+        this.order = orderBy;
+        this.pipeSort.transform(this.movies, [this.sort, this.order]);
     }
 
     ngOnInit() {
