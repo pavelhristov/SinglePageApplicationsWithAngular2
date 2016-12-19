@@ -2,11 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'mvdb-sort-by',
-    template: `
-    <ul>
-      <li *ngFor="let value of values" (click)="selectItem(value)">{{value}}</li>
-    </ul>
-  `
+    templateUrl: './movies-sort-by.component.html'
 })
 export class MoviesSortByComponent {
     values: string[];

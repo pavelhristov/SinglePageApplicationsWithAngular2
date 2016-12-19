@@ -3,7 +3,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 @Component({
     selector: 'mvdb-title-search',
     template: `
-        <input type="text" (titleFilter)="title" (input)="onKey($event)">
+        <input type="text" (input)="onKey($event)">
     `
 })
 export class TitleSearchComponent {
