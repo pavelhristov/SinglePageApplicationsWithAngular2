@@ -1,4 +1,15 @@
-<mvdb-title-search (titleFilter)="titleFilter($event)"></mvdb-title-search>
-<mvdb-sort-by (selectSort)="sorting($event)"></mvdb-sort-by>
-<mvdb-order-by (selectOrder)="ordering($event)"></mvdb-order-by>
-<mvdb-movies-list [sortBy]="sortBy" [orderBy]="orderBy" [pattern]="pattern"></mvdb-movies-list>
+<div id="root">
+    <nav role="navigation">
+        <ul class="nav nav-tabs">
+            <li role="presentation" routerLinkActive="active">
+                <a routerLink="/home">Home</a>
+            </li>
+            <li role="presentation" routerLinkActive="active">
+                <a routerLink="/top-movies">Top Movies</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

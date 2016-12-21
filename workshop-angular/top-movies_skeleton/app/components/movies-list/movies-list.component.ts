@@ -1,6 +1,7 @@
-import { Inject, Component, OnInit, Input } from '@angular/core';
+import { Injectable, Component, OnInit, Input } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
+@Injectable()
 @Component({
     selector: 'mvdb-movies-list',
     templateUrl: './movies-list.component.html',
@@ -19,7 +20,7 @@ export class MoviesListComponent implements OnInit {
     order: string;
     pattern: string;
 
-    constructor( @Inject(Http) http: Http) {
+    constructor(http: Http) {
         this.http = http;
         this.pageTitle = 'MOVIES!';
         this.movies = [];
