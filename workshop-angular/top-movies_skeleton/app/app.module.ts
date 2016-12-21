@@ -15,9 +15,9 @@ import { TopMoviesComponent } from './components/top-movies/top-movies.component
 import { HomePageComponent } from './components/home/home.component';
 
 const appRoutes: Routes = [
-    { path: 'home', component: HomePageComponent },
-    { path: 'top-movies', component: TopMoviesComponent },
-    { path: '', redirectTo: 'home', pathMatch: 'full' }
+    { path: 'home', component: HomePageComponent, pathMatch: 'full' },
+    { path: 'top-movies', component: TopMoviesComponent, pathMatch: 'full' },
+    { path: '**', redirectTo: 'home', pathMatch: 'prefix' }
 ];
 
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
