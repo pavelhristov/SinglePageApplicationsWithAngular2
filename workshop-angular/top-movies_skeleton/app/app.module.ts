@@ -1,7 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { MoviesListComponent } from './components/movies-list/movies-list.component';
@@ -13,11 +13,13 @@ import { FilterTitlePipe } from './pipes/filter-title.pipe';
 import { TitleSearchComponent } from './components/title-search/title-search.component';
 import { TopMoviesComponent } from './components/top-movies/top-movies.component';
 import { HomePageComponent } from './components/home/home.component';
+import { MovieDetailsPageComponent } from './components/movie-details/movie-details.component';
 
 const appRoutes: Routes = [
-    { path: 'home', component: HomePageComponent, pathMatch: 'full' },
-    { path: 'top-movies', component: TopMoviesComponent, pathMatch: 'full' },
-    { path: '**', redirectTo: 'home', pathMatch: 'prefix' }
+    { path: 'home', component: HomePageComponent },
+    { path: 'top-movies', component: TopMoviesComponent },
+    { path: 'details/:imdbID', component: MovieDetailsPageComponent },
+    { path: '**', redirectTo: 'home' }
 ];
 
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -38,6 +40,7 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
         TitleSearchComponent,
         TopMoviesComponent,
         HomePageComponent,
+        MovieDetailsPageComponent,
         SortPipe,
         FilterTitlePipe
     ],

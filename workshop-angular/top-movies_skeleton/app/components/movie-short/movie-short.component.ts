@@ -20,11 +20,13 @@ export class MovieShortComponent {
     imdbRating: string;
     year: string;
     poster: string;
+    imdbID: string;
 
     @Input('movie') set movie(movie: any) {
         this.title = movie.Title;
         this.poster = movie.Poster;
         this.imdbRating = movie.imdbRating;
         this.year = movie.Year;
+        this.imdbID = movie.imdbID;
     }
 }
