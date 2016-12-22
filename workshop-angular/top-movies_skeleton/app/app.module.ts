@@ -23,6 +23,7 @@ const appRoutes: Routes = [
 ];
 
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { CollapseDirective } from 'ng2-bootstrap';
 
 @NgModule({
     // put all the needed data here
@@ -41,8 +42,11 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
         TopMoviesComponent,
         HomePageComponent,
         MovieDetailsPageComponent,
+
         SortPipe,
-        FilterTitlePipe
+        FilterTitlePipe,
+
+        CollapseDirective
     ],
     bootstrap: [
         AppComponent

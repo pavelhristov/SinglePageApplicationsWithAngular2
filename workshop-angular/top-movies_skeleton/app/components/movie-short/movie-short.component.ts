@@ -7,9 +7,6 @@ import { Component, Input } from '@angular/core';
         img{
             width: 75px;
         }
-        h2{
-            display: inline-block;
-        }
         p{
             display: inline-block;
         }
