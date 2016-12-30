@@ -6,9 +6,7 @@ import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 @Component({
-    template: `
-    <h2>{{movie.Title}}</h2>
-    `
+    templateUrl: './movie-details.component.html'
 })
 export class MovieDetailsPageComponent implements OnInit {
     // http://www.omdbapi.com/?i=${imdbID}&plot=short&r=json
@@ -18,7 +16,17 @@ export class MovieDetailsPageComponent implements OnInit {
 
     constructor(http: Http, route: ActivatedRoute) {
         this.http = http;
-        this.movie = {};
+        this.movie = {
+            Poster: '',
+            Title: '',
+            Director: '',
+            Year: '',
+            Genre: '',
+            imdbRating: '',
+            Actors: '',
+            Awards: '',
+            Country: '',
+        };
         this.route = route;
     }
 

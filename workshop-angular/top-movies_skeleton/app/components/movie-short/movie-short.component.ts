@@ -25,5 +25,11 @@ export class MovieShortComponent {
         this.imdbRating = movie.imdbRating;
         this.year = movie.Year;
         this.imdbID = movie.imdbID;
+        if (this.poster === 'N/A') {
+            this.poster = 'https://anastaciomartinez.files.wordpress.com/2011/12/themovies.jpg';
+        }
+        if (this.imdbRating === 'N/A') {
+            this.imdbRating = '';
+        }
     }
 }

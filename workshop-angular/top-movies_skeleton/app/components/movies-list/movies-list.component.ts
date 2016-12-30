@@ -40,7 +40,7 @@ export class MoviesListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.dataService.getTopMoveis()
+        this.dataService.getTopMovies()
             .subscribe(movies => this.movies = movies);
     }
 }

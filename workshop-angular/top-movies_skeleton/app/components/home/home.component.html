@@ -1,0 +1,7 @@
+<h1>HOME!</h1>
+<button (click)="getMovies()">Get Some Movies!</button>
+<div class="col-md-12 movies-container">
+    <div *ngFor="let movie of movies" class="list-group-item">
+        <mvdb-movie-short [movie]="movie"></mvdb-movie-short>
+    </div>
+</div>
