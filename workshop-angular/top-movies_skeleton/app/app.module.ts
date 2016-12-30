@@ -14,6 +14,7 @@ import { TitleSearchComponent } from './components/title-search/title-search.com
 import { TopMoviesComponent } from './components/top-movies/top-movies.component';
 import { HomePageComponent } from './components/home/home.component';
 import { MovieDetailsPageComponent } from './components/movie-details/movie-details.component';
+import { DataService } from './services/data.service';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomePageComponent },
@@ -47,6 +48,9 @@ import { CollapseDirective } from 'ng2-bootstrap';
         FilterTitlePipe,
 
         CollapseDirective
+    ],
+    providers: [
+        DataService,
     ],
     bootstrap: [
         AppComponent

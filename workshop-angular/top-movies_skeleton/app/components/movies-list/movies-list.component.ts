@@ -1,5 +1,5 @@
 import { Injectable, Component, OnInit, Input } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { DataService } from '../../services/data.service';
 
 @Injectable()
 @Component({
@@ -15,13 +15,11 @@ import { Http, Response } from '@angular/http';
 export class MoviesListComponent implements OnInit {
     movies: Array<any>;
     pageTitle: string;
-    http: Http;
     sort: string;
     order: string;
     pattern: string;
 
-    constructor(http: Http) {
-        this.http = http;
+    constructor(private dataService: DataService) {
         this.pageTitle = 'MOVIES!';
         this.movies = [];
         this.pattern = '';
@@ -42,8 +40,7 @@ export class MoviesListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.http.get('../data/movies.json')
-            .map((res: Response) => res.json())
+        this.dataService.getTopMoveis()
             .subscribe(movies => this.movies = movies);
     }
 }

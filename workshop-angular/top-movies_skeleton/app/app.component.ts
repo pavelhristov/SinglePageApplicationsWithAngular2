@@ -10,6 +10,9 @@ import { Component } from '@angular/core';
             margin-left: 1%;
             margin-right: 1%;
         }
+        footer{
+            text-align: center;
+        }
     `]
 })
 export class AppComponent {
